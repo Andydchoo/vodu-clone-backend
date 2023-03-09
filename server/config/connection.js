@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/VodU", {
+mongoose.connect("mongodb+srv://admin:admin@cluster0.jnmdyon.mongodb.net/?retryWrites=true&w=majority" || "mongodb://127.0.0.1:27017/vodu", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  useCreateIndex: true,
-  useFindAndModify: false,
-});
+})
+  .then(() => console.log("Connected to DB"))
+  .catch(console.error);
 
 module.exports = mongoose.connection;
