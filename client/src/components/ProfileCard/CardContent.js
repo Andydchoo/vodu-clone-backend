@@ -10,13 +10,6 @@ import { QUERY_USER, QUERY_ME } from "../../utils/queries";
 import Avatar from "@mui/material/Avatar";
 import EditProfile from "../../pages/EditProfile";
 import VodForm from "../VodForm/index";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import Checkbox from "@mui/material/Checkbox";
-import IconButton from "@mui/material/IconButton";
 
 const ProfileLeftSideContent = () => {
   const { username: userParam } = useParams();
