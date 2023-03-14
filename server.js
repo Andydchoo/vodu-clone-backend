@@ -8,37 +8,38 @@ const { typeDefs, resolvers } = require('./schemas');
 const { authMiddleware } = require('./utils/auth');
 const dotenv = require('dotenv');
 const db = require('./config/connection');
-
 dotenv.config();
 
-async function startServer() {
-  const PORT = process.env.PORT || 3001;
-  const app = express();
+const PORT = process.env.PORT || 3001;
+const app = express();
 
-  const server = new ApolloServer({
-    typeDefs,
-    resolvers,
-    context: authMiddleware,
-  });
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+  context: authMiddleware,
+});
 
-  server.applyMiddleware({ app });
+server.applyMiddleware({ app });
 
-  app.use(express.urlencoded({ extended: false }));
-  app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
-  if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, '../client/build')));
-  }
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+  .then(() => console.log("Connected to DB"))
+  .catch(console.error);
 
-  app.get('*', async (req, res) => {
-    res.sendFile(path.join(__dirname, '../client/build/index.html'));
-  });
-
-  db.once('open', () => {
-    app.listen(PORT, () => {
-      console.log(`API server running on port ${PORT}!`);
-      console.log(`Use GraphQL at http://localhost:${PORT}${server.graphqlPath}`);
-    });
-  });
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../client/build')));
 }
-startServer();
+
+app.get('*', async (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/build/index.html'));
+});
+
+app.listen(PORT, () => {
+  console.log(`API server running on port ${PORT}!`);
+  console.log(`Use GraphQL at http://localhost:${PORT}${server.graphqlPath}`);
+});
