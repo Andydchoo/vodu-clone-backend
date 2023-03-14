@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
+const dotenv = require('dotenv');
+dotenv.config();
 
-mongoose.connect("mongodb+srv://admin:admin@cluster0.jnmdyon.mongodb.net/?retryWrites=true&w=majority" || "mongodb://127.0.0.1:27017/vodu", {
+mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })

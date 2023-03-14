@@ -9,6 +9,8 @@ const { authMiddleware } = require('./utils/auth');
 const dotenv = require('dotenv');
 const db = require('./config/connection');
 
+dotenv.config();
+
 async function startServer() {
   const PORT = process.env.PORT || 3001;
   const app = express();
